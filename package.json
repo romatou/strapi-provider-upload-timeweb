@@ -1,0 +1,27 @@
+{
+	"name": "strapi-provider-upload-timeweb",
+	"version": "1.0.1",
+	"description": "Timeweb S3 provider for Strapi upload plugin",
+	"scripts": {
+		"build": "tsc",
+		"clean": "rm -rf dist"
+	},
+	"main": "./dist",
+	"author": "Roma Tou <https://github.com/romatou>",
+	"repository": "strapi-provider-upload-timeweb",
+	"license": "MIT",
+	"private": false,
+	"devDependencies": {
+		"@types/node": "20.8.4",
+		"ts-node": "10.9.1",
+		"typescript": "5.2.2"
+	},
+	"dependencies": {
+		"@aws-sdk/client-s3": "3.427.0",
+		"@aws-sdk/lib-storage": "3.428.0",
+		"@aws-sdk/s3-request-presigner": "3.428.0"
+	},
+	"files": [
+		"./dist"
+	]
+}
