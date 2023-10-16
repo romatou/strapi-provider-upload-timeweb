@@ -4,20 +4,46 @@ import {
 	DeleteObjectCommand,
 	GetObjectCommand,
 } from '@aws-sdk/client-s3'
-import {StrapiUploadParams, File} from './types'
 import {getSignedUrl} from '@aws-sdk/s3-request-presigner'
+import {ReadStream} from 'fs'
+
+interface StrapiUploadParams {
+	key: string
+	secret: string
+	endpoint: string
+	region: string
+	bucket: string
+	private?: boolean
+}
+
+interface File {
+	name: string
+	alternativeText?: string
+	caption?: string
+	width?: number
+	height?: number
+	formats?: Record<string, unknown>
+	hash: string
+	ext?: string
+	mime: string
+	size: number
+	url: string
+	previewUrl?: string
+	path?: string
+	provider?: string
+	provider_metadata?: Record<string, unknown>
+	stream?: ReadStream
+	buffer?: Buffer
+}
 
 export = {
 	init(providerOptions: StrapiUploadParams) {
 		const {...config} = providerOptions
 
-		const getFileKey = (file: File, baseUrl?: string) => {
-			const path = `${baseUrl ? baseUrl : ''}${file.hash}${
-				file.ext
-			}`.toLowerCase()
+		const getFileKey = (file: File) => `${file.hash}${file.ext}`
 
-			return path
-		}
+		const getUrl = (file: File) =>
+			`${config.endpoint}/${config.bucket}/${file.url}`
 
 		const s3Client = new S3Client({
 			endpoint: config.endpoint || 'https://s3.timeweb.com',
@@ -43,7 +69,7 @@ export = {
 						},
 					}).done()
 
-					file.url = getFileKey(file, `${config.endpoint}/${config.bucket}/`)
+					file.url = getUrl(file)
 				} catch (e) {
 					throw e
 				}
@@ -61,7 +87,7 @@ export = {
 						},
 					}).done()
 
-					file.url = getFileKey(file, `${config.endpoint}/${config.bucket}/`)
+					file.url = getUrl(file)
 				} catch (e) {
 					throw e
 				}
