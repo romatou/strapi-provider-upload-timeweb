@@ -1,17 +1,17 @@
-# Strapi Provider Upload Timeweb S3
+# Strapi Provider Upload S3
 
-Provider for Strapi upload plugin to use [Timeweb S3 storage](https://timeweb.cloud/services/s3-storage). Uses AWS SDK v3. Also supports private buckets Could be used with most S3 storage providers that support AWS SDK. Just change the endpoint to the url given by your provider. For more information on how to setup providers in Strapi, visit this [link](https://docs.strapi.io/dev-docs/providers#creating-providers).
+- Provider for Strapi upload plugin
+- By default is configured to be used with [Timeweb S3 storage](https://timeweb.cloud/services/s3-storage), but could be used with most S3 storage providers that support AWS SDK - just change the endpoint to the url given by your provider
+- Uses AWS SDK v3
+- Private buckets support
+
+For more information on how to setup providers in Strapi, visit [Strapi Documentation](https://docs.strapi.io/dev-docs/providers#creating-providers).
 
 ## Installation
 
-```
-npm i strapi-provider-upload-timeweb
-yarn add strapi-provider-upload-timeweb
-```
+Install package in your Strapi application:
 
-[GitHub](https://github.com/romatou/strapi-provider-upload-timeweb)
-
-[NPM package page](https://www.npmjs.com/package/strapi-provider-upload-timeweb)
+`npm i strapi-provider-upload-timeweb` or `yarn add strapi-provider-upload-timeweb`
 
 ## Configuration
 
@@ -29,24 +29,52 @@ S3_REGION=ru-1
 S3_PRIVATE=true
 ```
 
-2. Add configuration options in `config/plugins`
+2. Add configuration options in `config/plugins`:
 
-```TypeScript
-// module.exports = ({ env }) => ({
+### JavaScript
 
-export default ({ env }) => ({
+```JavaScript
+module.exports = ({ env }) => ({
  upload: {
   config: {
    provider: 'strapi-provider-upload-timeweb',
+    providerOptions: {
+     key: env('S3_ACCESS_KEY'),
+     secret: env('S3_SECRET_KEY'),
+     endpoint: env('S3_URL'),
+     region: env('S3_REGION'),
+     bucket: env('S3_BUCKET'),
+     private: env('S3_PRIVATE', false)
+    },
+   },
+ },
+})
+```
+
+### TypeScript
+
+```TypeScript
+export default ({ env }) => ({
+upload: {
+ config: {
+  provider: 'strapi-provider-upload-timeweb',
    providerOptions: {
-		key: env('S3_ACCESS_KEY'),
-		secret: env('S3_SECRET_KEY'),
-		endpoint: env('S3_URL'),
-		region: env('S3_REGION'),
-		bucket: env('S3_BUCKET'),
-		private: env('S3_PRIVATE', false)
-	 },
+    key: env('S3_ACCESS_KEY'),
+    secret: env('S3_SECRET_KEY'),
+    endpoint: env('S3_URL'),
+    region: env('S3_REGION'),
+    bucket: env('S3_BUCKET'),
+    private: env('S3_PRIVATE', false)
+   },
   },
  },
 })
 ```
+
+You can change names of environment variables in `.env` file and `plugins.ts`/`plugin.js`, but keys must be as provided.
+
+## Links
+
+- Source code available at [GitHub](https://github.com/romatou/strapi-provider-upload-timeweb)
+
+- [NPM package page](https://www.npmjs.com/package/strapi-provider-upload-timeweb)

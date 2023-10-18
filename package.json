@@ -1,7 +1,7 @@
 {
 	"name": "strapi-provider-upload-timeweb",
-	"version": "1.0.2",
-	"description": "Timeweb S3 provider for Strapi upload plugin",
+	"version": "1.0.3",
+	"description": "S3 provider for Strapi upload plugin. By default is configured to be used with Timeweb S3 Storage.",
 	"scripts": {
 		"build": "tsc",
 		"clean": "rm -rf dist"
@@ -23,5 +23,11 @@
 	},
 	"files": [
 		"./dist"
+	],
+	"keywords": [
+		"strapi",
+		"provider",
+		"timeweb",
+		"s3"
 	]
 }
